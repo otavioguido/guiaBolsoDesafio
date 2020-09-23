@@ -1,4 +1,4 @@
-package com.osilva.guiabolso.challenge.contentGenerator;
+package com.osilva.guiabolso.challenge.content_generator;
 
 import com.osilva.guiabolso.challenge.exception.GenerateContentException;
 import com.osilva.guiabolso.challenge.model.Transaction;

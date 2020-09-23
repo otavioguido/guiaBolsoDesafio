@@ -1,4 +1,4 @@
-package com.osilva.guiabolso.challenge.inputValidation;
+package com.osilva.guiabolso.challenge.input_validation;
 
 import com.osilva.guiabolso.challenge.exception.InputValidationException;
 import org.springframework.stereotype.Component;
@@ -23,35 +23,22 @@ public class InputValidationImpl implements InputValidation {
     private void validateId(Integer id) throws InputValidationException {
         if (id == null || id < MIN_ID || id > MAX_ID) {
             throw new InputValidationException(
-                    new StringBuilder()
-                            .append("Id ")
-                            .append(id)
-                            .append(" is invalid. It must be between 1.000 and 100.000.000")
-                            .toString());
+                    String.format("Id %d is invalid. It must be between 1.000 and 100.000.000", id));
         }
     }
 
     private void validateYear(Integer year) throws InputValidationException {
-        int todaysYear = LocalDate.now().getYear();
-        if (year < 1970 || year > todaysYear) {
+        int currentYear = LocalDate.now().getYear();
+        if (year < 1970 || year > currentYear) {
             throw new InputValidationException(
-                    new StringBuilder()
-                            .append("Year ")
-                            .append(year)
-                            .append(" is invalid. It must be between 1970 and ")
-                            .append(todaysYear)
-                            .toString());
+                    String.format("Year %d is invalid. It must be between 1970 and %d.", year, currentYear));
         }
     }
 
     private void validateMonth(Integer month) throws InputValidationException {
         if (month < MIN_MONTH || month > MAX_MONTH) {
             throw new InputValidationException(
-                    new StringBuilder()
-                            .append("Month ")
-                            .append(month)
-                            .append(" is invalid. It must be between 1 and 12")
-                            .toString());
+                    String.format("Month %d is invalid. It must be between 1 and 12", month));
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.osilva.guiabolso.challenge.inputValidation;
+package com.osilva.guiabolso.challenge.input_validation;
 
 import com.osilva.guiabolso.challenge.exception.InputValidationException;
 

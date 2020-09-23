@@ -1,4 +1,4 @@
-package com.osilva.guiabolso.challenge.contentGenerator;
+package com.osilva.guiabolso.challenge.content_generator;
 
 import com.osilva.guiabolso.challenge.exception.GenerateContentException;
 import com.osilva.guiabolso.challenge.model.Transaction;
@@ -66,7 +66,7 @@ public class ContentGeneratorImpl implements ContentGenerator {
     }
 
     private void generateAndSetSeed(Integer id, Integer year, Integer month) {
-        random.setSeed(id + year + month);
+        random.setSeed((long) id + year + month);
     }
 
     private String generateRandomDescription() throws GenerateContentException {
@@ -87,7 +87,7 @@ public class ContentGeneratorImpl implements ContentGenerator {
                 .orElseThrow(() -> new GenerateContentException("Failed to generate random value"));
     }
 
-    private Long generateRandomDate(Integer month, Integer year) throws GenerateContentException {
+    private Long generateRandomDate(Integer month, Integer year) {
         LocalDate start = LocalDate.of(year, Month.values()[month-1], 1); // day 1
         LocalDate end = LocalDate.of(year, month, YearMonth.of(year, month).lengthOfMonth());
         LocalDate result = LocalDate.ofEpochDay(ThreadLocalRandom.current().nextLong(start.toEpochDay(), end.toEpochDay()));

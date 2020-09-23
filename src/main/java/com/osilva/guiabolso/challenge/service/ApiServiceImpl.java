@@ -1,9 +1,9 @@
 package com.osilva.guiabolso.challenge.service;
 
-import com.osilva.guiabolso.challenge.contentGenerator.ContentGenerator;
+import com.osilva.guiabolso.challenge.content_generator.ContentGenerator;
 import com.osilva.guiabolso.challenge.exception.GenerateContentException;
 import com.osilva.guiabolso.challenge.exception.InputValidationException;
-import com.osilva.guiabolso.challenge.inputValidation.InputValidation;
+import com.osilva.guiabolso.challenge.input_validation.InputValidation;
 import com.osilva.guiabolso.challenge.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
