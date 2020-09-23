@@ -7,6 +7,11 @@
 # BlueJ files
 *.ctxt
 
+# Maven
+mvnw
+mvnw.cmd
+.mvn
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
