@@ -1,7 +1,7 @@
 package com.osilva.guiabolso.challenge.service;
 
 import com.osilva.guiabolso.challenge.exception.GenerateContentException;
-import com.osilva.guiabolso.challenge.transaction.Transaction;
+import com.osilva.guiabolso.challenge.model.Transaction;
 
 import java.util.List;
 

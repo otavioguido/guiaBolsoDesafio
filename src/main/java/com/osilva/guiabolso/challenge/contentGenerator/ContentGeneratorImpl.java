@@ -1,22 +1,30 @@
 package com.osilva.guiabolso.challenge.contentGenerator;
 
 import com.osilva.guiabolso.challenge.exception.GenerateContentException;
-import com.osilva.guiabolso.challenge.transaction.Transaction;
+import com.osilva.guiabolso.challenge.model.Transaction;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static com.osilva.guiabolso.challenge.constants.GlobalVariables.*;
 
 @Component
 public class ContentGeneratorImpl implements ContentGenerator {
+
+    private static final int minTransactions = 1;
+    private static final int maxTransactions = 12;
+    private static final int minDescriptionSize = 10;
+    private static final int maxDescriptionSize = 60;
+    private static final int maxValue = 9999999;
+    private static final int leftLimit = 97; // letter 'a'
+    private static final int rightLimit = 122; // letter 'z'
+
+    private Random random = new Random();
 
     @Override
     public List<Transaction> generateTransactionList(Integer id, Integer year, Integer month) throws GenerateContentException {
@@ -24,13 +32,27 @@ public class ContentGeneratorImpl implements ContentGenerator {
         ArrayList<Transaction> transactions = new ArrayList<>();
 
         for (int index = 0; index < numberOfTransactions(); index++) {
-            Transaction transaction = generateTransaction(month, year);
-            addTransactionToList(transactions, transaction);
+            addTransactionToList(transactions, generateTransaction(month, year));
         }
 
         guaranteeDuplicateTransaction(transactions, month);
 
         return transactions;
+    }
+
+    private Transaction generateTransaction(Integer month, Integer year) throws GenerateContentException {
+        return new Transaction(
+                generateRandomDescription(),
+                generateRandomDate(month, year),
+                generateRandomValue(),
+                false);
+    }
+
+    private void addTransactionToList(ArrayList<Transaction> transactions, Transaction transaction) {
+        if (transactions.contains(transaction)) {
+            transaction.setDuplicate(true);
+        }
+        transactions.add(transaction);
     }
 
     private void guaranteeDuplicateTransaction(ArrayList<Transaction> transactions, Integer month) throws GenerateContentException {
@@ -43,25 +65,8 @@ public class ContentGeneratorImpl implements ContentGenerator {
         }
     }
 
-    private Transaction generateTransaction(Integer month, Integer year) throws GenerateContentException {
-        return Transaction
-                .builder()
-                .date(generateRandomDate(month, year))
-                .description(generateRandomDescription())
-                .value(generateRandomValue())
-                .duplicate(false)
-                .build();
-    }
-
-    private void addTransactionToList(ArrayList<Transaction> transactions, Transaction transaction) {
-        if (transactions.contains(transaction)) {
-            transaction.setDuplicate(true);
-        }
-        transactions.add(transaction);
-    }
-
     private void generateAndSetSeed(Integer id, Integer year, Integer month) {
-        random.setSeed(id + year + month + Instant.now().toEpochMilli());
+        random.setSeed(id + year + month);
     }
 
     private String generateRandomDescription() throws GenerateContentException {

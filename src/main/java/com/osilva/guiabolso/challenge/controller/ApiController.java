@@ -2,7 +2,6 @@ package com.osilva.guiabolso.challenge.controller;
 
 import com.osilva.guiabolso.challenge.exception.GenerateContentException;
 import com.osilva.guiabolso.challenge.service.ApiService;
-import com.osilva.guiabolso.challenge.transaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +14,19 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import java.util.List;
-
-import static com.osilva.guiabolso.challenge.constants.GlobalVariables.*;
-
 @RestController
 @RequestMapping("/")
 public class ApiController {
 
+    private static final int minId = 1000;
+    private static final int maxId = 100000000;
+    private static final int minMonth = 1;
+    private static final int maxMonth = 12;
+
     @Autowired
     private ApiService apiService;
 
-    @GetMapping("/{id}/transacoes/{ano}/{mes}")
+    @GetMapping(value = "/{id}/transacoes/{ano}/{mes}")
     public ResponseEntity<?> getTransaction(
             @PathVariable @NotNull @Min(minId) @Max(maxId) Integer id,
             @PathVariable(name = "ano") @NotNull Integer year,
