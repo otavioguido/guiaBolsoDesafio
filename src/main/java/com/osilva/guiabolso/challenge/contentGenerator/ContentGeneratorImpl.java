@@ -16,13 +16,13 @@ import java.util.concurrent.ThreadLocalRandom;
 @Component
 public class ContentGeneratorImpl implements ContentGenerator {
 
-    private static final int minTransactions = 1;
-    private static final int maxTransactions = 12;
-    private static final int minDescriptionSize = 10;
-    private static final int maxDescriptionSize = 60;
-    private static final int maxValue = 9999999;
-    private static final int leftLimit = 97; // letter 'a'
-    private static final int rightLimit = 122; // letter 'z'
+    private static final int MIN_TRANSACTION = 1;
+    private static final int MAX_TRANSACTION = 12;
+    private static final int MIN_DESCRIPTION_SIZE = 10;
+    private static final int MAX_DESCRIPTION_SIZE = 60;
+    private static final int MAX_VALUE = 9999999;
+    private static final int LEFT_LIMIT = 97; // letter 'a'
+    private static final int RIGHT_LIMIT = 122; // letter 'z'
 
     private Random random = new Random();
 
@@ -71,9 +71,9 @@ public class ContentGeneratorImpl implements ContentGenerator {
 
     private String generateRandomDescription() throws GenerateContentException {
         return random
-                .ints(leftLimit, rightLimit + 1)
+                .ints(LEFT_LIMIT, RIGHT_LIMIT + 1)
                 .limit(random
-                        .ints(minDescriptionSize, maxDescriptionSize + 1)
+                        .ints(MIN_DESCRIPTION_SIZE, MAX_DESCRIPTION_SIZE + 1)
                         .findFirst()
                         .orElseThrow(() -> new GenerateContentException("Failed to generate random description")))
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
@@ -82,7 +82,7 @@ public class ContentGeneratorImpl implements ContentGenerator {
 
     private Integer generateRandomValue() throws GenerateContentException {
         return random
-                .ints(-maxValue, maxValue + 1)
+                .ints(-MAX_VALUE, MAX_VALUE + 1)
                 .findFirst()
                 .orElseThrow(() -> new GenerateContentException("Failed to generate random value"));
     }
@@ -96,7 +96,7 @@ public class ContentGeneratorImpl implements ContentGenerator {
 
     private Integer numberOfTransactions() throws GenerateContentException {
         return random
-                .ints(minTransactions, maxTransactions)
+                .ints(MIN_TRANSACTION, MAX_TRANSACTION)
                 .findFirst()
                 .orElseThrow(() -> new GenerateContentException(
                         "Failed to generate random number of transactions"));

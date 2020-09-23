@@ -1,29 +1,22 @@
 package com.osilva.guiabolso.challenge;
 
-import com.osilva.guiabolso.challenge.controller.ApiController;
-import com.osilva.guiabolso.challenge.exception.InputValidationException;
-import com.osilva.guiabolso.challenge.service.ApiServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ApiController.class)
-public class ApiControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+public class ApiControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private ApiServiceImpl apiService;
 
     @Test
     public void correctInputShouldReturnOk() throws Exception {
@@ -35,9 +28,7 @@ public class ApiControllerTest {
     public void invalidLowerIdShouldReturnBadRequest() throws Exception {
         this.mockMvc.perform(get("/999/transacoes/2000/1").contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof InputValidationException))
-                .andExpect(result -> assertEquals("Id 999 is invalid. It must be between 1.000 and 100.000.000",
-                        result.getResolvedException().getMessage()));
+                .andExpect(content().string("Id 999 is invalid. It must be between 1.000 and 100.000.000"));
     }
 
     @Test
