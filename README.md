@@ -44,6 +44,18 @@ Content-type: application/json
 ]
 ```
 
+- local host
+
+```
+localhost:8080/{id}/transacoes/{ano}/{mes}
+```
+
+- heroku
+
+```
+https://guia-bolso-challenge.herokuapp.com/{id}/transacoes/{ano}/{mes}
+```
+
 - Swagger documentation
 
 ```
